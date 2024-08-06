@@ -1,3 +1,5 @@
+base64 -d <<< "4paI4paI4pWX4paI4paI4paI4paI4paI4paI4pWXIOKWiOKWiOKWiOKWiOKWiOKWiOKWiOKVl+KWiOKWiOKVlyAgIOKWiOKWiOKVl+KWiOKWiOKVlyDilojilojilojilojilojilojilZfilojilojilojilojilojilojilojilZfilojilojilojilojilojilojilZcgIOKWiOKWiOKWiOKWiOKWiOKVlyDilojilojilojilojilojilojilojilZfilojilojilZcgIOKWiOKWiOKVlwrilojilojilZHilojilojilZTilZDilZDilojilojilZfilojilojilZTilZDilZDilZDilZDilZ3ilojilojilZEgICDilojilojilZHilojilojilZHilojilojilZTilZDilZDilZDilZDilZ3ilojilojilZTilZDilZDilZDilZDilZ3ilojilojilZTilZDilZDilojilojilZfilojilojilZTilZDilZDilojilojilZfilojilojilZTilZDilZDilZDilZDilZ3ilojilojilZEgIOKWiOKWiOKVkQrilojilojilZHilojilojilZEgIOKWiOKWiOKVkeKWiOKWiOKWiOKWiOKWiOKVlyAg4paI4paI4pWRICAg4paI4paI4pWR4paI4paI4pWR4paI4paI4pWRICAgICDilojilojilojilojilojilZcgIOKWiOKWiOKWiOKWiOKWiOKWiOKVlOKVneKWiOKWiOKWiOKWiOKWiOKWiOKWiOKVkeKWiOKWiOKWiOKWiOKWiOKWiOKWiOKVl+KWiOKWiOKWiOKWiOKWiOKWiOKWiOKVkQrilojilojilZHilojilojilZEgIOKWiOKWiOKVkeKWiOKWiOKVlOKVkOKVkOKVnSAg4pWa4paI4paI4pWXIOKWiOKWiOKVlOKVneKWiOKWiOKVkeKWiOKWiOKVkSAgICAg4paI4paI4pWU4pWQ4pWQ4pWdICDilojilojilZTilZDilZDilojilojilZfilojilojilZTilZDilZDilojilojilZHilZrilZDilZDilZDilZDilojilojilZHilojilojilZTilZDilZDilojilojilZEK4paI4paI4pWR4paI4paI4paI4paI4paI4paI4pWU4pWd4paI4paI4paI4paI4paI4paI4paI4pWXIOKVmuKWiOKWiOKWiOKWiOKVlOKVnSDilojilojilZHilZrilojilojilojilojilojilojilZfilojilojilojilojilojilojilojilZfilojilojilojilojilojilojilZTilZ3ilojilojilZEgIOKWiOKWiOKVkeKWiOKWiOKWiOKWiOKWiOKWiOKWiOKVkeKWiOKWiOKVkSAg4paI4paI4pWRCuKVmuKVkOKVneKVmuKVkOKVkOKVkOKVkOKVkOKVnSDilZrilZDilZDilZDilZDilZDilZDilZ0gIOKVmuKVkOKVkOKVkOKVnSAg4pWa4pWQ4pWdIOKVmuKVkOKVkOKVkOKVkOKVkOKVneKVmuKVkOKVkOKVkOKVkOKVkOKVkOKVneKVmuKVkOKVkOKVkOKVkOKVkOKVnSDilZrilZDilZ0gIOKVmuKVkOKVneKVmuKVkOKVkOKVkOKVkOKVkOKVkOKVneKVmuKVkOKVnSAg4pWa4pWQ4pWdCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA="
+
 ARCH=/etc/arch-release
 YAY=/usr/bin/yay
 PARU=/usr/bin/paru
@@ -41,12 +43,11 @@ elif test -f "$DEBIAN"; then
         sudo apt-get install \
         build-essential \
         pkg-config \
-        checkinstall \
         git \
         autoconf \
         automake \
         libtool-bin \
-        libssl-dev \
+        libcurl4-openssl-dev \
         usbmuxd
 
         git clone https://github.com/libimobiledevice/libplist
@@ -67,6 +68,13 @@ elif test -f "$DEBIAN"; then
 
         git clone https://github.com/libimobiledevice/libusbmuxd
         cd libusbmuxd
+        PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./autogen.sh
+        make && sudo make install
+        sudo ldconfig
+        cd ..
+
+        git clone https://github.com/libimobiledevice/libtatsu
+        cd libtatsu
         PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./autogen.sh
         make && sudo make install
         sudo ldconfig
